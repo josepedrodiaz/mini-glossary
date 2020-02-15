@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\MiniGlossary;
+use App\Language;
 use Illuminate\Http\Request;
+
+use DB;
 
 class MiniGlossaryController extends Controller
 {
@@ -14,7 +17,9 @@ class MiniGlossaryController extends Controller
      */
     public function index()
     {
-        //
+        $mini_glossaries = MiniGlossary::all();
+        return view('mini-glossary.index',compact('mini_glossaries'));
+
     }
 
     /**
@@ -24,7 +29,9 @@ class MiniGlossaryController extends Controller
      */
     public function create()
     {
-        //
+        $languages = DB::table('languages')->pluck('name','id');
+        return view('mini-glossary.create', compact('languages'));
+
     }
 
     /**
@@ -35,7 +42,23 @@ class MiniGlossaryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:191',
+            'language_id' => 'required',
+        ]);
+        
+        $user = auth()->user();
+        $user_id = $user->id;
+
+        $mini_glossary = new MiniGlossary([
+            'user_id'=>$user_id,
+            'language_id'=>$request->get('language_id'),
+            'name'=>$request->get('name'),
+        ]);
+
+        $mini_glossary->save();
+        
+        return view('home')->with('ok_message', 'New Mini Glossary was created! You can continue <a href="/terms/create">Adding Terms to your new Mini Glossary</a>');;
     }
 
     /**

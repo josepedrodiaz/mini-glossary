@@ -15,9 +15,28 @@
                     @endif
 
                     {!! Form::open(['method' => 'POST', 'route' => ['language.store'], 'id' => 'form-create-language']) !!}
-                        {!! Form::text('code', null,['maxlength' => 2, 'placeholder' => 'en']) !!}
-                        {!! Form::text('name', null,['maxlength' => 150, 'placeholder' => 'English']) !!}
-                        {!! Form::submit('Add Language') !!}
+                       
+                                <p>Languaje name
+                                <br>
+                                {!! Form::text('name', null,['maxlength' => 150, 'placeholder' => 'for example: `English`']) !!}
+                                @error('name')
+                                    <div style="color:#761b18">{{ $message }}</div>
+                                @enderror
+                                <br><br>
+                                Languaje code
+                                <br>
+                                {!! Form::text('code', null,['size' => 4, 'maxlength' => 2, 'placeholder' => 'en']) !!}
+                                @error('code')
+                                    <div style="color:#761b18">{{ $message }}</div>
+                                @enderror
+                                </p>
+                     
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                            <br>
+                                {!! Form::submit('Add Language', ['class' => 'btn btn-primary']) !!}
+                            </div>
+                        </div>
                     {{ Form::close() }}
                 </div>
             </div>

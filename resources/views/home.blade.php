@@ -16,17 +16,19 @@
 
                     @if (isset($ok_message))
                         <div class="alert alert-success" role="alert">
-                            {{ $ok_message }}
+                            {!! $ok_message !!}
                         </div>
                     @endif
 
-                    You are logged in! Are you ready to translate?
+                    Are you ready to translate?
                     <br /><br />
                     <a class="btn btn-primary" href="/mini-glossary/create" role="button">Create new Mini-glossary</a>
                     <br /><br />
                     Also you can
                     <br /><br />
-                    <a class="btn btn-primary" href="/language/create" role="button">Add a new language</a>
+                    <a class="btn btn-primary" href="/language/create" role="button">Add a new Language</a>
+                    <br /><br />
+                    <a class="btn btn-primary" href="/mini-glossary" role="button">Select a Mini-Glossary to help in translation</a>
                 </div>
             </div>
         </div>
