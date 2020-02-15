@@ -22,7 +22,7 @@
 
                     Are you ready to translate?
                     <br /><br />
-                    <a class="btn btn-primary" href="/mini-glossary/create" role="button">Create new Mini-glossary</a>
+                    <a class="btn btn-primary" href="/mini-glossary/create" role="button">Create a new Mini-glossary</a>
                     <br /><br />
                     Also you can
                     <br /><br />
