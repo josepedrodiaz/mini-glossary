@@ -86,6 +86,15 @@
 
                 <div class="links">
                     Easly translate Mini-glossaries to the World!
+                    @auth
+                        Hello {{ Auth::user()->email }} <a href="{{ url('/home') }}">Go to translation panel.</a>
+                    @else
+                        @if (Route::has('register'))
+                            <a class="btn btn-outline-secondary" href="{{ route('register') }}" role="button">Let's Go!</a>
+                        @endif
+
+                        <p>Already registered? <a href="{{ route('login') }}">Login</a></p>
+                    @endauth
                 </div>
             </div>
         </div>

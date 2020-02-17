@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Translation;
 use App\MiniGlossary;
-use App\Language;
+use App\Term;
 use Illuminate\Http\Request;
 
 use DB;
 
-class MiniGlossaryController extends Controller
+class TranslationController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -20,15 +21,20 @@ class MiniGlossaryController extends Controller
         $this->middleware('auth');
     }
     /**
+     * Display translation panel
+     */
+    public function translator( $mini_glossary_id ){
+        $mini_glossary = MiniGlossary::find($mini_glossary_id);
+        return view('translator.index',compact('mini_glossary'));
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $mini_glossaries = MiniGlossary::all();
-        return view('mini-glossary.index',compact('mini_glossaries'));
-
+        //
     }
 
     /**
@@ -36,11 +42,11 @@ class MiniGlossaryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create( $term_id )
     {
         $languages = DB::table('languages')->pluck('name','id');
-        return view('mini-glossary.create', compact('languages'));
-
+        $term = Term::find($term_id);
+        return view('translation.create',compact('languages','term'));
     }
 
     /**
@@ -52,31 +58,40 @@ class MiniGlossaryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:191',
+            'translation' => 'required|max:191',
             'language_id' => 'required',
+            'term_id' => 'required',
+        ]);
+
+        $translation = new Translation([
+            'term_id'=>$request->get('term_id'),
+            'language_id'=>$request->get('language_id'),
+            'translation'=>$request->get('translation'),
         ]);
         
         $user = auth()->user();
         $user_id = $user->id;
+        $translation->translator = $user_id;
 
-        $mini_glossary = new MiniGlossary([
-            'user_id'=>$user_id,
-            'language_id'=>$request->get('language_id'),
-            'name'=>$request->get('name'),
-        ]);
+        $term = Term::find($request->get('term_id'));
 
-        $mini_glossary->save();
+        if($term->miniGlossary->user_id == $user_id ){
+            $translation->approved = 1;
+        }
+
+        $translation->save();
         
-        return view('home')->with('ok_message', 'New Mini Glossary was created! You can continue <a href="/translator/' . $mini_glossary->id . '">Adding Terms to your new Mini Glossary</a>');;
+        return redirect('/translator/' . $term->miniGlossary->id)->with('ok_message', 'Translation added');
+    
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\MiniGlossary  $miniGlossary
+     * @param  \App\Translation  $translation
      * @return \Illuminate\Http\Response
      */
-    public function show(MiniGlossary $miniGlossary)
+    public function show(Translation $translation)
     {
         //
     }
@@ -84,10 +99,10 @@ class MiniGlossaryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\MiniGlossary  $miniGlossary
+     * @param  \App\Translation  $translation
      * @return \Illuminate\Http\Response
      */
-    public function edit(MiniGlossary $miniGlossary)
+    public function edit(Translation $translation)
     {
         //
     }
@@ -96,10 +111,10 @@ class MiniGlossaryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MiniGlossary  $miniGlossary
+     * @param  \App\Translation  $translation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MiniGlossary $miniGlossary)
+    public function update(Request $request, Translation $translation)
     {
         //
     }
@@ -107,10 +122,10 @@ class MiniGlossaryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\MiniGlossary  $miniGlossary
+     * @param  \App\Translation  $translation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MiniGlossary $miniGlossary)
+    public function destroy(Translation $translation)
     {
         //
     }
