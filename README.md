@@ -17,3 +17,7 @@ The goal of this test project is to create a small application that encapsulates
 
 For the purpose of this project, a “mini-glossary” will be defined as a glossary that consists of a minimum of 3 terms and a maximum of 5 terms on a particular topic or subject matter. Each term can be translated into as many languages as possible by the glossary owner or anyone else using the application.
 
+## Demo
+You can see it deployed here:
+http://198.46.81.192/~mustop5/mini-glossary/public/
+
