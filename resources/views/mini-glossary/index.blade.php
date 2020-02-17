@@ -43,10 +43,8 @@
                                     @if ($mini_glossary->user->id == Auth::user()->id )
                                         <a href="/translator/{{ $mini_glossary->id }}">Add Terms & Translate</a>
                                     @else
-                                        <a href="#">Help with translation</a>
+                                        <a href="/translator/{{ $mini_glossary->id }}">Help with translation</a>
                                     @endif
-                                    -
-                                    <a href="#">View</a>
                                 </td>
                             </tr>
                         @endforeach

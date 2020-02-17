@@ -19,12 +19,16 @@
                             {!! $ok_message !!}
                         </div>
                     @endif
-                    
-                    @foreach($term->translations as $translation)
-                        {{ $translation->pivot->translation }}
-                    @endforeach
+                    <ul>
+                        @foreach($term->translations as $translation)
+                            <li>{{ $translation->pivot->translation }} 
+                            (language: 
+                            {{App\Translation::getLanguageCode($translation->pivot->language_id)}}
+                            )</li>
+                        @endforeach
+                    </ul>
 
-                    <a href="/translation/create/{{ $term->id }}">Add translation for {{ $term->value }}</a>
+                    <p><a href="/translation/create/{{ $term->id }}">Add translation for <strong>'{{ $term->value }}'</strong></a></p>
 
                 </div>
             </div>
