@@ -27,7 +27,7 @@
                         @foreach($mini_glossaries as $mini_glossary)
                             <tr class="data_row">  
                                 <td> 
-                                    {{ $mini_glossary->name }}
+                                    {{ $mini_glossary->name }} <br> <small> ( {{ count( $mini_glossary->terms) }} terms) </small>
                                 </td>
                                 <td> 
                                     {{ $mini_glossary->language->name }}
@@ -41,13 +41,10 @@
                                 </td>
                                 <td> 
                                     @if ($mini_glossary->user->id == Auth::user()->id )
-                                        <a href="#">Add Terms</a> 
-                                        -
-                                        <a href="#">Translate</a>
+                                        <a href="/translator/{{ $mini_glossary->id }}">Add Terms & Translate</a>
                                     @else
-                                        <a href="#">Help with translation</a>
+                                        <a href="/translator/{{ $mini_glossary->id }}">Help with translation</a>
                                     @endif
-                                    <a href="#">View</a>
                                 </td>
                             </tr>
                         @endforeach

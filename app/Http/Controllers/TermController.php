@@ -3,10 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Term;
+use App\Language;
 use Illuminate\Http\Request;
 
 class TermController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +45,19 @@ class TermController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'mini_glossaries_id' => 'required',
+            'value' => 'required|max:191'
+        ]);
+
+        $term = new Term([
+            'mini_glossary_id'=>$request->get('mini_glossaries_id'),
+            'value'=>$request->get('value')
+        ]);
+
+        $term->save();
+        
+        return redirect()->route('translator', ['mini_glossaries_id' => $request->get('mini_glossaries_id')])->with('ok_message', 'New Term "' . $term->value . '" was added to this Mini-glossay');
     }
 
     /**
@@ -46,7 +68,8 @@ class TermController extends Controller
      */
     public function show(Term $term)
     {
-        //
+        return view('translation.show')->with(['term'=>$term]);
+
     }
 
     /**

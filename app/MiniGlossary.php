@@ -22,4 +22,11 @@ class MiniGlossary extends Model
     {
         return $this->belongsTo('App\Language');
     }
+    /**
+     * Get the terms for this Mini-glossary
+     */
+    public function terms()
+    {
+        return $this->hasMany('App\Term');
+    }
 }
