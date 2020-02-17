@@ -47,7 +47,6 @@
                                     @else
                                         <a href="#">Help with translation</a>
                                     @endif
-                                    -
                                     <a href="#">View</a>
                                 </td>
                             </tr>
