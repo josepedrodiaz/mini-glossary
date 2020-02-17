@@ -23,19 +23,24 @@
                         {{ session('ok_message') }}
                         </div>
                     @endif
+                    
+                    @if( $mini_glossary->user_id == Auth::user()->id )
 
-                    @if ( count( $mini_glossary->terms) < 5 )
-                        {!! Form::open(['method' => 'POST', 'route' => ['terms.store'], 'id' => 'form-add-term']) !!}
-                            {!! Form::text('value', null,['maxlength' => 191, 'placeholder' => 'Add Term', 'class' => 'form-control']) !!}
-                            @error('value')
-                                <div style="color:#761b18">{{ $message }}</div>
-                            @enderror
-                            {{ Form::hidden('mini_glossaries_id', $mini_glossary->id) }}
-                            <br />
-                            {!! Form::submit('Add', ['class' => 'btn btn-primary']) !!}
-                        {{ Form::close() }}       
+                        @if ( count( $mini_glossary->terms) < 5 )
+                            {!! Form::open(['method' => 'POST', 'route' => ['terms.store'], 'id' => 'form-add-term']) !!}
+                                {!! Form::text('value', null,['maxlength' => 191, 'placeholder' => 'Add Term', 'class' => 'form-control']) !!}
+                                @error('value')
+                                    <div style="color:#761b18">{{ $message }}</div>
+                                @enderror
+                                {{ Form::hidden('mini_glossaries_id', $mini_glossary->id) }}
+                                <br />
+                                {!! Form::submit('Add', ['class' => 'btn btn-primary']) !!}
+                            {{ Form::close() }}       
+                        @else
+                        You reach the limit of {{ count( $mini_glossary->terms) }} terms for this Mini-glossary
+                        @endif
                     @else
-                     You reach the limit of {{ count( $mini_glossary->terms) }} terms for this Mini-glossary
+                        <p>Only owner the can add terms to this Mini-gossary</p>
                     @endif
 
                                

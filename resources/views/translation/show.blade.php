@@ -22,6 +22,9 @@
                     <ul>
                         @foreach($term->translations as $translation)
                             <li>{{ $translation->pivot->translation }} 
+                            @if ($translation->pivot->approved == 0)
+                                NOT APPROVED
+                            @endif
                             (language: 
                             {{App\Translation::getLanguageCode($translation->pivot->language_id)}}
                             )</li>
